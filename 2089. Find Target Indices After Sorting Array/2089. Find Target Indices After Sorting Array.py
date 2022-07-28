@@ -14,4 +14,5 @@ class Solution(object):
             temp_index=index
             while(array[temp_index]<array[temp_index-1] and temp_index > 0):
                 array[temp_index],array[temp_index-1]=array[temp_index-1],array[temp_index]
+                temp_index-=1
             
