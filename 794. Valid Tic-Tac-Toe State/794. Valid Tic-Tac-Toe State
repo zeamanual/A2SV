@@ -1,0 +1,58 @@
+class Solution:
+    def validTicTacToe(self, board: List[str]) -> bool:
+
+        x_count=0
+        o_count=0
+
+        for row in board:
+            for item in row:
+                if(item=='X'):
+                    x_count+=1
+                elif(item=='O'):
+                    o_count+=1
+
+        x_won,o_won = self.who_won(board)
+        if( (x_won and x_count==o_count+1) or (o_won and x_count==o_count)):
+            return True
+        elif( (not x_won and not o_won) and (x_count==o_count or x_count==o_count+1)):
+            return True
+        elif( (not x_won and not o_won) and (x_count + o_count == 1 and x_count == 1) ):
+            return True
+        else:
+            return False
+
+    def who_won(self,board):
+
+        board_status= [0]*8
+        rows = len(board)
+        cols = len(board[0])
+    
+        for i in range(rows):
+            for j in range(cols):
+                if(board[i][j]=='X'):
+                    board_status[i]+=1
+                    board_status[3+j]+=1
+                    if(i==j):
+                        board_status[6]+=1
+                    if(i+j==2):
+                        board_status[7]+=1
+                elif(board[i][j]=='O'):
+                    board_status[i]-=1
+                    board_status[3+j]-=1
+                    if(i==j):
+                        board_status[6]-=1
+                    if(i+j==2):
+                        board_status[7]-=1
+        x_won = False
+        o_won = False     
+
+        # checking who won
+        for score in board_status:
+            if(score==3):
+                x_won=True
+                break
+            elif(score==-3):
+                o_won=True
+                break
+
+        return x_won,o_won
