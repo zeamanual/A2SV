@@ -5,9 +5,8 @@ class Solution:
             return 0
         nums.sort()
         
-        opt1 = nums[-1]-nums[3]
-        opt2 = nums[-4]-nums[0]
-        opt3 = nums[-2]-nums[2]
-        opt4 = nums[-3] - nums[1]
+        min_val = float('inf')
+        for i in range(4):
+            min_val = min(min_val,nums[-1-i]-nums[3-i])
 
-        return min(opt1,opt2,opt3,opt4)
+        return min_val
