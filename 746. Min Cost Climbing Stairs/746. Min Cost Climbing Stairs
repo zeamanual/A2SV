@@ -1,0 +1,18 @@
+class Solution:
+    def minCostClimbingStairs(self, cost: List[int]) -> int:
+        
+        saved = {}
+        def get_min_cost(n):
+            nonlocal saved
+
+            if(n in saved):
+                return saved[n]
+
+            if(n == 0 or n == 1):
+                return cost[n]
+            else:
+                saved[n]=cost[n] + min(get_min_cost(n-1),get_min_cost(n-2))
+                return saved[n]
+
+        
+        return min( get_min_cost(len(cost)-1), get_min_cost(len(cost)-2))
