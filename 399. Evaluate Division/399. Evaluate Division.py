@@ -11,16 +11,16 @@ class Solution:
         answer = []
         for start,end in queries:
    
-            distances = defaultdict(lambda : float('inf'))
+            evaluations = defaultdict(lambda : float('inf'))
             que = [(1,start)]
-            distances[start]=1 if start!=end else float('inf')
+            evaluations[start]=1 if start!=end else float('inf')
             while(que):
-                cost,node = que.pop()
+                weight,node = que.pop()
 
-                for nbr,nbr_cost in graph[node]:
-                    if(distances[nbr]>cost*nbr_cost):
-                        distances[nbr]=cost*nbr_cost
-                        que.append((cost*nbr_cost,nbr))
+                for nbr,nbr_weight in graph[node]:
+                    if(evaluations[nbr]>weight*nbr_weight):
+                        evaluations[nbr]=weight*nbr_weight
+                        que.append((weight*nbr_weight,nbr))
 
-            answer.append(distances[end] if distances[end]!=float('inf') else -1)
+            answer.append(evaluations[end] if evaluations[end]!=float('inf') else -1)
         return answer
