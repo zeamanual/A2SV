@@ -1,0 +1,63 @@
+class LRUCache:
+
+    def __init__(self, capacity: int):
+        self.capacity = capacity
+        self.head = Node()
+        self.tail = Node()
+        self.head.next= self.tail
+        self.tail.prev = self.head
+        self.store= dict()
+        self.curr_size = 0
+
+    def get(self, key: int) -> int:
+        if key in self.store:
+            self.remove(self.store[key])
+            self.add(self.store[key])
+            return self.store[key].val
+        
+        return -1
+
+    def put(self, key: int, value: int) -> None:
+        if key in self.store :
+            self.remove(self.store[key])
+            self.store[key].val = value
+            self.add(self.store[key])
+
+        elif self.curr_size<self.capacity:
+            self.store[key]=Node(value,key)
+            self.add(self.store[key])
+            self.curr_size+=1
+        else:
+            del self.store[self.head.next.key]
+            self.remove(self.head.next)
+            self.store[key]=Node(value,key)
+            self.add(self.store[key])
+            self.curr_size+=1
+
+
+    def remove(self,node):
+        prev = node.prev
+        next = node.next
+        prev.next = next
+        next.prev = prev
+    
+    def add(self,node):
+        self.tail.prev.next=node
+        node.prev = self.tail.prev
+        node.next = self.tail
+        self.tail.prev = node
+
+            
+
+
+class Node:
+    def __init__(self,val='',key='',prev=None,next=None):
+        self.val = val
+        self.key = key
+        self.prev = prev
+        self.next = next
+
+# Your LRUCache object will be instantiated and called as such:
+# obj = LRUCache(capacity)
+# param_1 = obj.get(key)
+# obj.put(key,value)
